@@ -11,4 +11,5 @@ class Command(BaseCommand):
         action = options['action']
         if action == 'raise':
             raise CommandError('raise error')
-        self.stdout.write(self.style.SUCCESS('testpoll'))
+        self.stdout.write('testpoll')
+        return 'testpoll'
