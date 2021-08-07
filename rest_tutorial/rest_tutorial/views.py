@@ -1,7 +1,20 @@
 from django.contrib.auth.models import User, Group
+from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_tutorial.serializers import UserSerializer, GroupSerializer
+from rest_framework.decorators import api_view, throttle_classes
+from rest_framework.throttling import UserRateThrottle
+
+
+class OncePerDayUserThrottle(UserRateThrottle):
+    rate = '1/day'
+
+
+@api_view(['GET'])
+@throttle_classes([OncePerDayUserThrottle])
+def OncePerDayUserThrottleViewSet(request):
+    return Response({"message": "Hello for today! See you tomorrow!"})
 
 
 class UserViewSet(viewsets.ModelViewSet):
